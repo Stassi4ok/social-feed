@@ -1,9 +1,26 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import PostService from '../services/post.service';
 
-export function usePosts() {
-  return useQuery({
+const LIMIT = 10;
+
+export const usePosts = () => {
+  return useInfiniteQuery({
     queryKey: ['posts'],
-    queryFn: () => PostService.getAll(),
+    queryFn: async ({ pageParam = 0 }) => {
+      const result = await PostService.getAll(LIMIT, pageParam);
+      return result;
+    },
+
+    initialPageParam: 0,
+
+    getNextPageParam: (lastPage) => {
+      const nextSkip = lastPage.skip + lastPage.limit;
+     
+      if (nextSkip >= lastPage.total) {
+        return undefined;
+      }
+
+      return nextSkip;
+    },
   });
-}
+};

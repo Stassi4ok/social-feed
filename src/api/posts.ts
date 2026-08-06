@@ -1,9 +1,12 @@
-import { Post } from '../types/post';
+import { PostsResponse } from '@/types/postsResponse';
+import { Post, } from '../types/post';
 import { api } from './client';
 import { ENDPOINTS } from './endpoints';
 
-export const getPosts = async (): Promise<Post[]> => {
-    const {data} = await api.get<Post[]>(ENDPOINTS.POSTS);
+export const getPosts = async (limit?: number, skip?: number): Promise<PostsResponse> => {
+    const {data} = await api.get<PostsResponse>(
+        `${ENDPOINTS.POSTS}?limit=${limit}&skip=${skip}&select=title,reactions,userId`
+    );
     return data;
 }
 
@@ -12,8 +15,8 @@ export const getPostById  = async (id: number): Promise<Post> => {
     return data;
 }
 
-export const createPost = async (post: Omit<Post, 'id'>): Promise<Post> => {
-    const {data} = await api.post<Post>(ENDPOINTS.POSTS, post);
+export const createPost = async (post: Omit<Post, 'id'>): Promise<PostsResponse> => {
+    const {data} = await api.post<PostsResponse>(ENDPOINTS.POSTS, post);
     return data;
 }
 

@@ -3,24 +3,28 @@ import PostCard from '../components/PostCard';
 import { usePosts } from '../hooks/usePosts';
 
 export default function HomeScreen() {
-  const { data: posts, isLoading, error } = usePosts();
-  console.log(posts
-  );
-  if (isLoading) {
-    return <Text>Loading...</Text>;
-  }
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = usePosts();
 
-  if (error) {
-    return <Text>Error</Text>;
-  }
+const posts = data?.pages.flatMap(page => page.posts) ?? [];
 
   return (
     <View>
       <Text> posts</Text>
       <FlatList
-        data={posts?.posts}
+        data={posts}
         renderItem={({ item }) => <PostCard post={item} />}
         keyExtractor={(item) => item.id.toString()}
+        onEndReached={() => {
+          if (hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+          }
+        }}
+        onEndReachedThreshold={0.5}
       />
     </View>
   );
