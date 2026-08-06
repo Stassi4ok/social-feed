@@ -1,12 +1,12 @@
-import { Comment } from '../types/comment';
+import { CommentsResponse } from '../types';
 import { api } from './client';
 import { ENDPOINTS } from './endpoints';
 
 export const getCommentsByPost = async (
   postId: number
-): Promise<Comment[]> => {
-  const { data } = await api.get<Comment[]>(
-    `${ENDPOINTS.COMMENTS}?postId=${postId}`
+): Promise<CommentsResponse> => {
+  const { data } = await api.get<CommentsResponse>(
+    `${ENDPOINTS.COMMENTS}/${postId}/comments`
   );
 
   return data;

@@ -1,5 +1,5 @@
 export const ENDPOINTS = {
     POSTS: '/posts',
-    COMMENTS: '/comments',
+    COMMENTS: '/posts',
     USERS: '/users',
 }

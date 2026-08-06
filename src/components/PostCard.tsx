@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { router } from 'expo-router';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { PostWithUser } from '../types/post';
 
 type PostCardProps = {
@@ -8,6 +9,9 @@ type PostCardProps = {
 export default function PostCard({ post }: PostCardProps) {
   return (
     <View style={styles.card}>
+      <TouchableOpacity
+        onPress={() => router.push(`/post/${post.id}`)}
+      >
       <Text style={styles.title}>{post.user?.firstName} {post.user?.lastName}</Text>
       <Text style={styles.title}>{post.title}</Text>
 
@@ -26,6 +30,7 @@ export default function PostCard({ post }: PostCardProps) {
         <Text>👎 {post.reactions.dislikes}</Text>
         <Text>👁 {post.views}</Text>
       </View>
+      </TouchableOpacity>
     </View>
   );
 }
