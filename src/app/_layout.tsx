@@ -1,5 +1,10 @@
-import { Stack } from "expo-router";
+import { Stack } from 'expo-router';
+import { QueryProvider } from '../query/QueryProvider';
 
 export default function RootLayout() {
-  return <Stack />;
+  return (
+    <QueryProvider>
+      <Stack />
+    </QueryProvider>
+  );
 }

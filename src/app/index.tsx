@@ -1,17 +1,27 @@
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, Text, View } from 'react-native';
+import PostCard from '../components/PostCard';
+import { usePosts } from '../hooks/usePosts';
 
-export default function Index() {
+export default function HomeScreen() {
+  const { data: posts, isLoading, error } = usePosts();
+  console.log(posts
+  );
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (error) {
+    return <Text>Error</Text>;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Edit src/app/index.tsx to edit this screenasdasdas  .</Text>
+    <View>
+      <Text> posts</Text>
+      <FlatList
+        data={posts?.posts}
+        renderItem={({ item }) => <PostCard post={item} />}
+        keyExtractor={(item) => item.id.toString()}
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
