@@ -1,18 +1,30 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { Post } from '../types/post';
+import { PostWithUser } from '../types/post';
 
 type PostCardProps = {
-  post: Post;
+  post: PostWithUser;
 };
 
 export default function PostCard({ post }: PostCardProps) {
   return (
     <View style={styles.card}>
+      <Text style={styles.title}>{post.user?.firstName} {post.user?.lastName}</Text>
       <Text style={styles.title}>{post.title}</Text>
+
+      {post.body && <Text style={styles.body}>{post.body}</Text>}
+
+      <View style={styles.tagsContainer}>
+        {post.tags && post.tags.map(tag => (
+          <View key={tag} style={styles.tag}>
+            <Text style={styles.tagText}>#{tag}</Text>
+          </View>
+        ))}
+      </View>
+
       <View style={styles.footer}>
         <Text>👍 {post.reactions.likes}</Text>
         <Text>👎 {post.reactions.dislikes}</Text>
-  
+        <Text>👁 {post.views}</Text>
       </View>
     </View>
   );

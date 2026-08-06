@@ -1,13 +1,18 @@
+import { User } from './user';
+
 export interface Post {
     id: number;
     title: string;
-    body?: string;
-    tags?: string[];
+    body: string;
+    tags: string[];
     reactions: {
         likes: number;
         dislikes: number;
     };
-    views?: number;
+    views: number;
     userId: number;
 }
 
+export interface PostWithUser extends Post {
+  user: User;
+}

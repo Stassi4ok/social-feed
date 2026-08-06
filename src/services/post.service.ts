@@ -1,29 +1,35 @@
-import { getPostById, getPosts } from '../api/posts';
-import { Post, PostsResponse } from '../types';
+import { getPostById, getPosts, getUserById } from '../api';
+import { PostWithUser, PostsWithUserResponse } from '../types';
+
 class PostService {
-  async getAll(limit = 10, skip = 0): Promise<PostsResponse> {
-    const  data  = await getPosts(limit, skip);
-    return data;  
-  }
-  async getById(id: number): Promise<Post> {
-    const  data  = await getPostById(id);
-    return data;
-  }
-  /* 
-  async create(post: Omit<Post, 'id'>): Promise<Post> {
-    const { data } = await createPost(post);
-    return data;
+  async getAll(
+    limit = 10,
+    skip = 0
+  ): Promise<PostsWithUserResponse> {
+    const data = await getPosts(limit, skip);
+
+    const posts = await Promise.all(
+      data.posts.map(async (post) => ({
+        ...post,
+        user: await getUserById(post.userId),
+      }))
+    );
+
+    return {
+      ...data,
+      posts,
+    };
   }
 
-  async update(id: number, post: Partial<Omit<Post, 'id'>>): Promise<Post> {
-    const { data } = await updatePost(id, post);
-    return data;
-  }
+  async getById(id: number): Promise<PostWithUser> {
+    const post = await getPostById(id);
+    const user = await getUserById(post.userId);
 
-  async delete(id: number): Promise<void> {
-    await deletePost(id);
+    return {
+      ...post,
+      user,
+    };
   }
-  */
 }
 
 export default new PostService();

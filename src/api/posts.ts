@@ -1,11 +1,11 @@
 import { PostsResponse } from '@/types/postsResponse';
-import { Post, } from '../types/post';
+import { Post } from '../types/post';
 import { api } from './client';
 import { ENDPOINTS } from './endpoints';
 
 export const getPosts = async (limit?: number, skip?: number): Promise<PostsResponse> => {
     const {data} = await api.get<PostsResponse>(
-        `${ENDPOINTS.POSTS}?limit=${limit}&skip=${skip}&select=title,reactions,userId`
+        `${ENDPOINTS.POSTS}?limit=${limit}&skip=${skip}&select=title,reactions,userId,tags,views,body`
     );
     return data;
 }
