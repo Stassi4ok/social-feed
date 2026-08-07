@@ -1,10 +1,18 @@
-import { Stack } from 'expo-router';
-import { QueryProvider } from '../query/QueryProvider';
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { Stack } from "expo-router";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { QueryProvider } from "../query/QueryProvider";
 
 export default function RootLayout() {
   return (
-    <QueryProvider>
-      <Stack />
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider>
+        <QueryProvider>
+        <Stack />
     </QueryProvider>
+      </BottomSheetModalProvider>
+      
+    </GestureHandlerRootView>
+    
   );
 }

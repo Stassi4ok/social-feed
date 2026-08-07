@@ -1,5 +1,5 @@
 import { FlatList } from 'react-native';
-import { PostWithUser } from '../types';
+import { PostWithUser } from '../../types';
 import PostCard from './PostCard';
 
 type Props = {
@@ -7,6 +7,7 @@ type Props = {
   refreshing: boolean;
   onRefresh: () => void;
   onEndReached: () => void;
+  onEdit: (post: PostWithUser) => void;
 };
 
 export default function PostList({
@@ -14,11 +15,12 @@ export default function PostList({
   refreshing,
   onRefresh,
   onEndReached,
+  onEdit,
 }: Props) {
   return (
     <FlatList
       data={posts}
-      renderItem={({ item }) => <PostCard post={item} />}
+      renderItem={({ item }) => <PostCard post={item} onEdit={onEdit} />}
       keyExtractor={(item) => item.id.toString()}
       refreshing={refreshing}
       onRefresh={onRefresh}

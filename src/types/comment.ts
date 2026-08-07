@@ -1,13 +1,20 @@
+import { CommentUser } from './user';
+
 export interface Comment {
   postId: number;
   id: number;
   name: string;
-  email: string;
   body: string;
   likes: number;
-  user:{
-    id: number;
-    username: string;
-    fullName: string;
-  }
+}
+
+export interface CommentWithUser extends Comment {
+  user: CommentUser;
+}
+
+export interface CreateCommentDto {
+  postId: number;
+  title: string;
+  body: string;
+  userId: number;
 }

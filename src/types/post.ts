@@ -16,3 +16,15 @@ export interface Post {
 export interface PostWithUser extends Post {
   user: User;
 }
+
+export interface UpdatePostDto {
+  title?: string;
+  body?: string;
+  userId?: number;
+}
+
+export interface CreatePostDto {
+  title: string;
+  body: string;
+  userId: number;
+}

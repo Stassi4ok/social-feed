@@ -1,6 +1,6 @@
-import { PostsResponse } from '@/types';
+import { PostsWithUserResponse } from '@/types';
 import { InfiniteData, useQuery, useQueryClient } from '@tanstack/react-query';
-import PostService from '../services/post.service';
+import PostService from '../../../services/post.service';
 
 export function usePost(postId: number) {
   const queryClient = useQueryClient();
@@ -12,7 +12,7 @@ export function usePost(postId: number) {
 
     initialData: () => {
       const data = queryClient.getQueryData<
-        InfiniteData<PostsResponse>
+        InfiniteData<PostsWithUserResponse>
       >(['posts']);
   
       return data?.pages

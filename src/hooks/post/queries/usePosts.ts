@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import PostService from '../services/post.service';
+import PostService from '../../../services/post.service';
 
 const LIMIT = 10;
 

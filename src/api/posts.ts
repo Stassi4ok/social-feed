@@ -8,6 +8,7 @@ export const getPosts = async (limit?: number, skip?: number): Promise<PostsResp
         `${ENDPOINTS.POSTS}?limit=${limit}&skip=${skip}&select=title,reactions,userId,tags,views,body`
     );
     return data;
+    
 }
 
 export const getPostById  = async (id: number): Promise<Post> => {

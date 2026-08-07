@@ -1,7 +1,7 @@
-import { Comment } from './comment';
+import { CommentWithUser } from './comment';
 
 export interface CommentsResponse {
-  comments: Comment[];
+  comments: CommentWithUser[];
   total: number;
   skip: number;
   limit: number;

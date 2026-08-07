@@ -1,9 +1,9 @@
-import { Comment } from '@/types';
+import { CommentWithUser } from '@/types';
 import { StyleSheet, Text, View } from 'react-native';
 import CommentCard from './CommentCard';
 
 type Props = {
-  comments: Comment[];
+  comments: CommentWithUser[];
 };
 
 export default function CommentsList({ comments }: Props) {
