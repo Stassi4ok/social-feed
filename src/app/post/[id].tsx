@@ -1,12 +1,14 @@
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useLocalSearchParams } from 'expo-router';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { CURRENT_USER_ID } from '@/constants';
 
 import CommentsList from '@/components/CommentsList';
 import PostCard from '@/components/post/PostCard';
+
+import { CommentWithUser } from '@/types';
 
 import CreateCommentBottomSheet from '@/components/CreateCommentBottomSheet';
 import CreatePostBottomSheet from '@/components/post/CreatePostBottomSheet';
@@ -21,14 +23,18 @@ export default function PostDetailsScreen() {
 
   const editPostSheetRef = useRef<BottomSheetModal>(null);
   const createCommentSheetRef = useRef<BottomSheetModal>(null);
-
+  const editCommentSheetRef = useRef<BottomSheetModal>(null);
+  const [selectedComment, setSelectedComment] = useState<CommentWithUser | null>(null);
   const { data: post } = usePost(postId);
   const { data: comments } = useComments(postId);
 
   const handleEdit = () => {
     editPostSheetRef.current?.present();
   };
-
+  const handleEditComment = (comment: CommentWithUser) => {
+    setSelectedComment(comment);
+    editCommentSheetRef.current?.present();
+  };
   const handleCloseEdit = () => {
     editPostSheetRef.current?.close();
   };
@@ -54,7 +60,9 @@ export default function PostDetailsScreen() {
           onPress={() => createCommentSheetRef.current?.present()}
         />
 
-        {comments && <CommentsList comments={comments} />}
+        {comments && <CommentsList 
+        comments={comments} 
+        />}
       </ScrollView>
 
       <CreatePostBottomSheet
