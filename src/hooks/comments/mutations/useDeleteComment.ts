@@ -6,19 +6,14 @@ export function useDeleteComment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      commentId,
-      postId,
-    }: {
-      commentId: number;
-      postId: number;
-    }) => CommentService.delete(commentId),
+    mutationFn: (comment: CommentWithUser) =>
+      CommentService.delete(comment.id),
 
-    onSuccess: (_, { commentId, postId }) => {
+    onSuccess: (_, comment) => {
       queryClient.setQueryData<CommentWithUser[]>(
-        ['comments', postId],
+        ['comments', comment.postId],
         (old = []) =>
-          old.filter(comment => comment.id !== commentId)
+          old.filter(c => c.id !== comment.id)
       );
     },
   });

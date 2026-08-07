@@ -1,23 +1,23 @@
 import { CURRENT_USER_ID } from '@/constants';
+import { useDeleteComment } from '@/hooks/comments/mutations/useDeleteComment';
 import { CommentWithUser } from '@/types';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type Props = {
   comment: CommentWithUser;
-  onEdit?: (comment: CommentWithUser) => void;
-  onDelete?: (comment: CommentWithUser) => void;
 };
 
 export default function CommentCard({
-  comment,
-  onEdit,
-  onDelete,
-}: Props) {
+  comment}: Props) {
   const isOwner = comment.user.id === CURRENT_USER_ID;
+  const { mutate: deleteComment, isPending } = useDeleteComment();
+  const handleDelete = () => {
+    deleteComment(comment);
+  }
 
   return (
     <View style={styles.card}>
-      <View style={styles.header}>
+      <View style={styles.header}>  
         <View style={styles.avatar}>
           <Text style={styles.avatarText}>
             {comment.user.fullName[0].toUpperCase()}
@@ -32,11 +32,7 @@ export default function CommentCard({
 
         {isOwner && (
           <View style={styles.actions}>
-            <TouchableOpacity onPress={() => onEdit?.(comment)}>
-              <Text style={styles.edit}>Edit</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => onDelete?.(comment)}>
+            <TouchableOpacity onPress={handleDelete}>
               <Text style={styles.delete}>Delete</Text>
             </TouchableOpacity>
           </View>

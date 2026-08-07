@@ -18,26 +18,23 @@ const CreateCommentBottomSheet = forwardRef<BottomSheetModal, Props>(
   ({ postId, currentUserId }, ref) => {
     const snapPoints = useMemo(() => ['45%'], []);
 
-    const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
 
     const { mutate: createComment, isPending } = useCreateComment();
 
     const handleCreate = () => {
-      if (!title.trim() || !body.trim()) {
+      if (!body.trim()) {
         return;
       }
 
       createComment(
         {
           postId,
-          title,
           body,
           userId: currentUserId,
         },
         {
           onSuccess: () => {
-            setTitle('');
             setBody('');
 
             (ref as React.RefObject<BottomSheetModal>).current?.close();
@@ -66,13 +63,6 @@ const CreateCommentBottomSheet = forwardRef<BottomSheetModal, Props>(
       >
         <BottomSheetView style={styles.container}>
           <Text style={styles.title}>New Comment</Text>
-
-          <BottomSheetTextInput
-            placeholder="Title"
-            value={title}
-            onChangeText={setTitle}
-            style={styles.input}
-          />
 
           <BottomSheetTextInput
             placeholder="Comment"

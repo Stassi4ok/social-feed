@@ -12,7 +12,7 @@ export function useCreateComment() {
     onSuccess: (newComment) => {
       queryClient.setQueryData<CommentWithUser[]>(
         ['comments', newComment.postId],
-        (old = []) => [...old, newComment]
+        (old = []) => [ newComment, ...old]
       );
     },
   });

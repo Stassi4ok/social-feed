@@ -1,25 +1,23 @@
 import { CommentWithUser } from '@/types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import CommentCard from './CommentCard';
-
 type Props = {
   comments: CommentWithUser[];
 };
 
-export default function CommentsList({ comments }: Props) {
+export default function CommentsList({ comments, }: Props) {
+  
   return (
-    <View>
-      <Text style={styles.title}>
-        Comments ({comments.length})
-      </Text>
-
+    <>
       {comments.map(comment => (
         <CommentCard
           key={comment.id}
           comment={comment}
         />
       ))}
-    </View>
+
+      
+    </>
   );
 }
 

@@ -30,7 +30,6 @@ class CommentService {
     const newComment: CommentWithUser = {
       id: Number(localComments.length + 1),
       postId: comment.postId,
-      name: comment.title,
       body: comment.body,
       likes: 0,
       user:{
@@ -38,7 +37,7 @@ class CommentService {
         fullName: `${user.firstName} ${user.lastName}`, 
       },
     };
-
+  
     localComments.push(newComment);
 
     await this.saveLocalComments(localComments);
@@ -56,7 +55,6 @@ class CommentService {
 
     comments[index] = {
       ...comments[index],
-      name: comment.title,
       body: comment.body,
     }
 
