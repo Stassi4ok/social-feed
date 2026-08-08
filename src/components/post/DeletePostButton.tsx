@@ -1,12 +1,22 @@
 import { useDeletePost } from '@/hooks/post/mutations/useDeletePost';
-import { router } from 'expo-router';
-import { Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+
 type Props = {
   postId: number;
 };
 
-export default function DeletePostButton({ postId }: Props) {
-  const { mutate: deletePost, isPending } = useDeletePost();
+export default function DeletePostButton({
+  postId,
+}: Props) {
+  const {
+    mutate: deletePost,
+    isPending,
+  } = useDeletePost();
 
   const handleDelete = () => {
     Alert.alert(
@@ -20,9 +30,16 @@ export default function DeletePostButton({ postId }: Props) {
         {
           text: 'Delete',
           style: 'destructive',
-          onPress: () => {deletePost(postId); router.push('/')},
+          onPress: () => {
+            console.log(
+              '🗑️ DELETE BUTTON:',
+              postId,
+            );
+
+            deletePost(postId);
+          },
         },
-      ]
+      ],
     );
   };
 
@@ -33,7 +50,9 @@ export default function DeletePostButton({ postId }: Props) {
       disabled={isPending}
     >
       <Text style={styles.text}>
-        {isPending ? 'Deleting...' : 'Delete'}
+        {isPending
+          ? 'Deleting...'
+          : 'Delete'}
       </Text>
     </TouchableOpacity>
   );

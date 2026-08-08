@@ -23,17 +23,19 @@ export default function CreatePostForm({ post, onSuccess }: Props) {
 
   const handleSubmit = () => {
     if (post) {
+       console.log(' UPDATE SUCCESS', post);
       updatePost(
         {
-          id: post.id,
+          postId: post.id,
           data: {
             title,
             body,
           },
         },
         {
-          onSuccess: () => {
+          onSuccess: (data) => {
             onSuccess?.();
+             console.log('✅ UPDATE SUCCESS', data);
           },
         }
       );

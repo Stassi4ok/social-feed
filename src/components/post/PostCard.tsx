@@ -1,6 +1,7 @@
 import { CURRENT_USER_ID } from '@/constants/curentUser';
 import { PostWithUser } from '@/types';
 import { router } from 'expo-router';
+import { memo } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DeletePostButton from './DeletePostButton';
 import EditPostButton from './EditPostButton';
@@ -11,7 +12,8 @@ type PostCardProps = {
   
 };
 
-export default function PostCard({ post, onEdit }: PostCardProps) {
+function PostCard({ post, onEdit }: PostCardProps) {
+  console.log('🎨 PostCard render:', post.id);
   const isOwner = post.userId === CURRENT_USER_ID;
   return (
     <View style={styles.card}>
@@ -35,7 +37,7 @@ export default function PostCard({ post, onEdit }: PostCardProps) {
             </View>
           ))}
         </View>
-          {isOwner && (
+          {isOwner && onEdit && (
               <View style={styles.actions}>
               <EditPostButton onPress={() => onEdit(post)} />
               <DeletePostButton postId={post.id} />
@@ -52,6 +54,8 @@ export default function PostCard({ post, onEdit }: PostCardProps) {
     </View>
   );
 }
+
+export default memo(PostCard);
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',

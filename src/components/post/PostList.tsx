@@ -1,4 +1,6 @@
-import { FlatList } from 'react-native';
+import { useCallback } from 'react';
+import { FlatList, ListRenderItem } from 'react-native';
+
 import { PostWithUser } from '../../types';
 import PostCard from './PostCard';
 
@@ -17,11 +19,28 @@ export default function PostList({
   onEndReached,
   onEdit,
 }: Props) {
+  const renderItem = useCallback<ListRenderItem<PostWithUser>>(
+    ({ item }) => {
+      return (
+        <PostCard
+          post={item}
+          onEdit={onEdit}
+        />
+      );
+    },
+    [onEdit],
+  );
+
+  const keyExtractor = useCallback(
+    (item: PostWithUser) => item.id.toString(),
+    [],
+  );
+
   return (
     <FlatList
       data={posts}
-      renderItem={({ item }) => <PostCard post={item} onEdit={onEdit} />}
-      keyExtractor={(item) => item.id.toString()}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
       refreshing={refreshing}
       onRefresh={onRefresh}
       onEndReached={onEndReached}
