@@ -59,7 +59,7 @@ private async saveLocalPosts(posts: PostWithUser[]): Promise<void> {
         firstName: user.firstName,
         lastName: user.lastName,
       },
-    };
+    };  
 
     
   }
@@ -74,7 +74,7 @@ private async saveLocalPosts(posts: PostWithUser[]): Promise<void> {
     title: data.title,
     body: data.body,
     userId: data.userId,
-    tags: [],
+    tags: [],  
     reactions: {
       likes: 0,
       dislikes: 0,

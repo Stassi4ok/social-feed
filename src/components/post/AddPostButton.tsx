@@ -5,7 +5,7 @@ type Props = {
   onPress: () => void;
 };
 
-export default function CreatePostButton({ onPress }: Props) {
+export default function AddPostButton({ onPress }: Props) {
   return (
     <Button
       title="Create Post"

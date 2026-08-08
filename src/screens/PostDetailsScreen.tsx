@@ -1,38 +1,94 @@
-import { useRoute } from '@react-navigation/native';
-import { ScrollView, Text, View } from 'react-native';
+import { useComments } from '@/hooks/comments/queries/useComments';
+import { usePost } from '@/hooks/post/queries/usePost';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { useLocalSearchParams } from 'expo-router';
+import { useRef } from 'react';
 
-import { useComments } from '../hooks/queries/useComments';
-import { usePost } from '../hooks/queries/usePost';
+import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+
+import { CommentsList, CreateCommentBottomSheet } from '@/components';
+import { CreatePostBottomSheet, CreatePostForm, PostCard } from '@/components/post';
+
+
+import { CURRENT_USER_ID } from '@/constants';
 
 export default function PostDetailsScreen() {
-  const route = useRoute();
 
-  const { postId } = route.params;
+
+
+  const editPostSheetRef = useRef<BottomSheetModal>(null);
+  const createCommentSheetRef = useRef<BottomSheetModal>(null);
+  
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const postId = Number(id);
 
   const { data: post } = usePost(postId);
-
   const { data: comments } = useComments(postId);
 
-  if (!post) return null;
+  const handleEdit = () => {
+      editPostSheetRef.current?.present();
+    };
+    const handleCloseEdit = () => {
+      editPostSheetRef.current?.close();
+    };
+  
+    if (!post) {
+      return (
+        <View style={styles.center}>
+          <Text>Post not found</Text>
+        </View>
+      );
+    }
 
   return (
-    <ScrollView>
+    <>
+      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+        <PostCard
+          post={post}
+          onEdit={handleEdit}
+        />
 
-      <Text>{post.title}</Text>
+        <Button
+          title="Add Comment"
+          onPress={() => createCommentSheetRef.current?.present()}
+        />
 
-      <Text>{post.body}</Text>
+        {comments && <CommentsList 
+        comments={comments} 
+        />}
+      </ScrollView>
 
-      <Text>
-        {post.user.firstName} {post.user.lastName}
-      </Text>
+      <CreatePostBottomSheet
+        ref={editPostSheetRef}
+        title="Edit Post"
+      >
+        <CreatePostForm
+          post={post}
+          onSuccess={handleCloseEdit}
+        />
+      </CreatePostBottomSheet>
 
-      {comments?.map(comment => (
-        <View key={comment.id}>
-          <Text>{comment.user.username}</Text>
-          <Text>{comment.body}</Text>
-        </View>
-      ))}
-
-    </ScrollView>
+      <CreateCommentBottomSheet
+        ref={createCommentSheetRef}
+        postId={post.id}
+        currentUserId={CURRENT_USER_ID}
+      />
+    </>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f7fb',
+  },
+  content: {
+    padding: 16,
+    paddingBottom: 30,
+    gap: 16,
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
