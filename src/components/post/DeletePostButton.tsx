@@ -1,11 +1,11 @@
 import { useDeletePost } from '@/hooks/post/mutations/useDeletePost';
+import { usePathname, useRouter } from 'expo-router';
 import {
   Alert,
   StyleSheet,
   Text,
   TouchableOpacity,
 } from 'react-native';
-
 type Props = {
   postId: number;
 };
@@ -17,6 +17,9 @@ export default function DeletePostButton({
     mutate: deletePost,
     isPending,
   } = useDeletePost();
+
+const router = useRouter();
+const isHome = "/" === usePathname();
 
   const handleDelete = () => {
     Alert.alert(
@@ -31,11 +34,7 @@ export default function DeletePostButton({
           text: 'Delete',
           style: 'destructive',
           onPress: () => {
-            console.log(
-              '🗑️ DELETE BUTTON:',
-              postId,
-            );
-
+            !isHome &&  router.back();
             deletePost(postId);
           },
         },

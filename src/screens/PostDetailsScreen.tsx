@@ -1,19 +1,20 @@
+import { useCallback, useRef } from 'react';
+
 import { useComments } from '@/hooks/comments/queries/useComments';
 import { usePost } from '@/hooks/post/queries/usePost';
+
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useLocalSearchParams } from 'expo-router';
-import { useRef } from 'react';
-
 import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { CommentsList, CreateCommentBottomSheet } from '@/components';
 import { CreatePostBottomSheet, CreatePostForm, PostCard } from '@/components/post';
 
+import { PostWithUser } from '@/types';
 
 import { CURRENT_USER_ID } from '@/constants';
 
 export default function PostDetailsScreen() {
-
 
 
   const editPostSheetRef = useRef<BottomSheetModal>(null);
@@ -25,9 +26,12 @@ export default function PostDetailsScreen() {
   const { data: post } = usePost(postId);
   const { data: comments } = useComments(postId);
 
-  const handleEdit = () => {
-      editPostSheetRef.current?.present();
-    };
+  const handleEdit = useCallback(
+      (post: PostWithUser) => {
+         editPostSheetRef.current?.expand();
+      },
+      [],
+    );
     const handleCloseEdit = () => {
       editPostSheetRef.current?.close();
     };

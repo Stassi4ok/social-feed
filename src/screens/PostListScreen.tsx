@@ -22,8 +22,7 @@ import BottomSheet from '@gorhom/bottom-sheet';
 
 export default function PostListScreen() {
   const [search, setSearch] = useState('');
-  const [selectedPost, setSelectedPost] =
-    useState<PostWithUser | null>(null);
+  const [selectedPost, setSelectedPost] = useState<PostWithUser | null>(null);
 
   const bottomSheetRef =
     useRef<BottomSheet>(null);
