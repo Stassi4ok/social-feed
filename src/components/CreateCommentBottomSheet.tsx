@@ -1,14 +1,15 @@
 import {
-    BottomSheetBackdrop,
-    BottomSheetModal,
-    BottomSheetTextInput,
-    BottomSheetView,
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetTextInput,
+  BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import { forwardRef, useCallback, useMemo, useState } from 'react';
-import { Button, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { useCreateComment } from '@/hooks/comments/mutations/useCreateComment';
 
+import { buttonStyle, containerStyle, inputStyle, typographyStyle } from '@/styles';
 type Props = {
   postId: number;
   currentUserId: number;
@@ -61,22 +62,30 @@ const CreateCommentBottomSheet = forwardRef<BottomSheetModal, Props>(
         backdropComponent={renderBackdrop}
         enablePanDownToClose
       >
-        <BottomSheetView style={styles.container}>
-          <Text style={styles.title}>New Comment</Text>
+        <BottomSheetView style={[containerStyle.content, containerStyle.formContainer]}>
+          <Text style={typographyStyle.h3}>New Comment</Text>
 
           <BottomSheetTextInput
             placeholder="Comment"
             value={body}
             onChangeText={setBody}
             multiline
-            style={[styles.input, styles.textArea]}
+            style={[inputStyle.base, inputStyle.textArea]}
           />
 
-          <Button
-            title={isPending ? 'Creating...' : 'Create'}
-            onPress={handleCreate}
-            disabled={isPending}
-          />
+          <Pressable
+                onPress={handleCreate}
+                style={[
+                  buttonStyle.base,
+                  buttonStyle.normal,
+                  buttonStyle.create,
+                ]}
+                disabled={isPending}
+              >
+                <Text style={buttonStyle.textNormal}>
+                  {isPending ? 'Creating...' : 'Create'}
+                </Text>
+              </Pressable>
         </BottomSheetView>
       </BottomSheetModal>
     );

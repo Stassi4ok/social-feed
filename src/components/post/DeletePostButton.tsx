@@ -1,10 +1,11 @@
 import { useDeletePost } from '@/hooks/post/mutations/useDeletePost';
+import { buttonStyle } from '@/styles';
 import { usePathname, useRouter } from 'expo-router';
+import { useCallback } from 'react';
 import {
   Alert,
-  StyleSheet,
   Text,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native';
 type Props = {
   postId: number;
@@ -21,7 +22,9 @@ export default function DeletePostButton({
 const router = useRouter();
 const isHome = "/" === usePathname();
 
-  const handleDelete = () => {
+
+
+  const handleDelete = useCallback(() => {
     Alert.alert(
       'Delete post',
       'Are you sure?',
@@ -40,36 +43,22 @@ const isHome = "/" === usePathname();
         },
       ],
     );
-  };
+  },[isHome, router, deletePost, postId])
 
   return (
     <TouchableOpacity
-      style={[styles.button, styles.delete]}
+      style={[
+        buttonStyle.base,
+        buttonStyle.delete,
+        buttonStyle.normal,
+        isPending && buttonStyle.disabled,
+      ]}
       onPress={handleDelete}
       disabled={isPending}
     >
-      <Text style={styles.text}>
-        {isPending
-          ? 'Deleting...'
-          : 'Delete'}
+      <Text style={buttonStyle.textNormal}>
+        {isPending ? 'Deleting...' : 'Delete'}
       </Text>
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-  },
-
-  delete: {
-    backgroundColor: '#EF4444',
-  },
-
-  text: {
-    color: '#fff',
-    fontWeight: '600',
-  },
-});

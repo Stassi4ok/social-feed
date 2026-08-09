@@ -1,95 +1,58 @@
 import { CURRENT_USER_ID } from '@/constants';
 import { useDeleteComment } from '@/hooks/comments/mutations/useDeleteComment';
+import { buttonStyle, containerStyle, decorationStyle, typographyStyle } from '@/styles';
 import { CommentWithUser } from '@/types';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { memo } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 type Props = {
   comment: CommentWithUser;
 };
 
-export default function CommentCard({
+ function CommentCard({
   comment}: Props) {
   const isOwner = comment.user.id === CURRENT_USER_ID;
   const { mutate: deleteComment, isPending } = useDeleteComment();
   const handleDelete = () => {
     deleteComment(comment);
   }
+  console.log("🎨 Comment render: ", comment.id)
 
   return (
-    <View style={styles.card}>
-      <View style={styles.header}>  
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>
-            {comment.user.fullName[0].toUpperCase()}
-          </Text>
-        </View>
-
-        <View style={styles.userInfo}>
-          <Text style={styles.username}>
-            {comment.user.fullName}
-          </Text>
-        </View>
-
-        {isOwner && (
-          <View style={styles.actions}>
-            <TouchableOpacity onPress={handleDelete}>
-              <Text style={styles.delete}>Delete</Text>
-            </TouchableOpacity>
+    <View style={containerStyle.card}>
+      <View style={containerStyle.rowBetween}>  
+        <View style={containerStyle.row}>
+          
+          <View style={decorationStyle.avatar}>
+            <Text style={[
+              typographyStyle.bodyBold,
+              typographyStyle.textColor3
+            ]}>
+              {comment.user.fullName[0].toUpperCase()}
+            </Text>
           </View>
+
+          <View>
+            <Text style={typographyStyle.bodyMedium}>
+              {comment.user.fullName}
+            </Text>
+          </View>
+        </View>
+        {isOwner && (
+          
+            <TouchableOpacity onPress={handleDelete} style={[
+              buttonStyle.base,
+              buttonStyle.small,
+              buttonStyle.delete,
+            ]}>
+              <Text style={buttonStyle.textSmall}>Delete</Text>
+            </TouchableOpacity>
         )}
       </View>
 
-      <Text style={styles.body}>{comment.body}</Text>
+      <Text style={typographyStyle.body}>{comment.body}</Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 14,
-    padding: 16,
-    marginBottom: 12,
-    elevation: 2,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#10b981',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  avatarText: {
-    color: '#fff',
-    fontWeight: '700',
-  },
-  userInfo: {
-    flex: 1,
-  },
-  username: {
-    fontWeight: '700',
-  },
-  body: {
-    marginTop: 12,
-    color: '#4b5563',
-    lineHeight: 22,
-  },
-  actions: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  edit: {
-    color: '#2563eb',
-    fontWeight: '600',
-  },
-  delete: {
-    color: '#ef4444',
-    fontWeight: '600',
-  },
-});
+export default memo(CommentCard)

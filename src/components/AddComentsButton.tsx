@@ -1,22 +1,24 @@
-import { buttonStyle } from '@/styles';
 import { Pressable, Text } from 'react-native';
+
+import { buttonStyle } from '@/styles';
 
 type Props = {
   onPress: () => void;
 };
 
-export default function AddPostButton({ onPress }: Props) {
+export default function AddCommentButton({ onPress }: Props) {
   return (
     <Pressable
       onPress={onPress}
-      style={[
+      style={({ pressed }) => [
         buttonStyle.base,
+        buttonStyle.primary,
         buttonStyle.normal,
-        buttonStyle.create,
+        pressed && buttonStyle.pressed,
       ]}
     >
       <Text style={buttonStyle.textNormal}>
-        Create Post
+        Add Comment
       </Text>
     </Pressable>
   );

@@ -1,9 +1,14 @@
 import { useCreatePost } from '@/hooks/post/mutations/useCreatePost';
 import { useUpdatePost } from '@/hooks/post/mutations/useUpdatePost';
+import { buttonStyle, containerStyle, inputStyle } from '@/styles';
 import { PostWithUser } from '@/types/post';
 import { useEffect, useState } from 'react';
-import { Button, TextInput, View } from 'react-native';
-
+import {
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 type Props = {
   post?: PostWithUser;
   onSuccess?: () => void;
@@ -58,25 +63,36 @@ export default function CreatePostForm({ post, onSuccess }: Props) {
   };
 
   return (
-    <View>
+    <View style={containerStyle.formContainer}>
       <TextInput
         placeholder="Title"
         value={title}
         onChangeText={setTitle}
+        style={inputStyle.base}
       />
 
       <TextInput
         placeholder="Body"
         value={body}
         onChangeText={setBody}
+        style={[inputStyle.base, inputStyle.textArea]}
         multiline
       />
 
-      <Button
-        title={post ? 'Save' : 'Create'}
+      <Pressable
         onPress={handleSubmit}
         disabled={isCreating || isUpdating}
-      />
+        style={({ pressed }) => [
+          buttonStyle.base,
+          buttonStyle.primary,
+          pressed && buttonStyle.pressed,
+          (isCreating || isUpdating) && buttonStyle.disabled,
+        ]}
+      >
+        <Text style={buttonStyle.textNormal}>
+          {post ? 'Save' : 'Create'}
+        </Text>
+      </Pressable>
     </View>
   );
 }

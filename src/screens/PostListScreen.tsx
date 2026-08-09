@@ -20,6 +20,7 @@ import { SearchBar } from '../components';
 import { PostWithUser } from '@/types';
 import BottomSheet from '@gorhom/bottom-sheet';
 
+import { containerStyle } from '@/styles';
 export default function PostListScreen() {
   const [search, setSearch] = useState('');
   const [selectedPost, setSelectedPost] = useState<PostWithUser | null>(null);
@@ -40,11 +41,6 @@ export default function PostListScreen() {
     data?.pages.flatMap(
       page => page.posts,
     ) ?? [];
-
-  console.log(
-    '📱 SCREEN POSTS:',
-    posts.map(post => post.id),
-  );
 
   const filteredPosts = useMemo(() => {
     const normalizedSearch =
@@ -95,7 +91,7 @@ export default function PostListScreen() {
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={containerStyle.main}>
       <SearchBar
         value={search}
         onChangeText={setSearch}

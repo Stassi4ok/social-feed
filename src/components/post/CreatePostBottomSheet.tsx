@@ -1,9 +1,9 @@
+import { containerStyle, typographyStyle } from '@/styles';
 import BottomSheet, {
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import { forwardRef, ReactNode, useMemo } from 'react';
 import { Text } from 'react-native';
-
 type Props = {
   title?: string;
   children?: ReactNode;
@@ -11,7 +11,7 @@ type Props = {
 
 const CreatePostBottomSheet = forwardRef<BottomSheet, Props>(
   ({ title, children }, ref) => {
-    const snapPoints = useMemo(() => ['50%', '90%'], []);
+    const snapPoints = useMemo(() => ['50%'], []);
 
     return (
       <BottomSheet
@@ -20,8 +20,10 @@ const CreatePostBottomSheet = forwardRef<BottomSheet, Props>(
         snapPoints={snapPoints}
         enablePanDownToClose
       >
-        <BottomSheetView style={{ flex: 1, padding: 20 }}>
-          <Text>{title}</Text>
+        <BottomSheetView style={containerStyle.content}>
+          <Text
+            style={typographyStyle.h4}
+          >{title}</Text>
 
           {children}
         </BottomSheetView>

@@ -1,5 +1,8 @@
 import { useCallback } from 'react';
-import { FlatList, ListRenderItem } from 'react-native';
+import {
+  FlatList,
+  ListRenderItem,
+} from 'react-native';
 
 import { PostWithUser } from '../../types';
 import PostCard from './PostCard';
@@ -32,7 +35,7 @@ export default function PostList({
   );
 
   const keyExtractor = useCallback(
-    (item: PostWithUser) => item.id.toString(),
+    (item: PostWithUser) => String(item.id),
     [],
   );
 

@@ -5,15 +5,16 @@ import { usePost } from '@/hooks/post/queries/usePost';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useLocalSearchParams } from 'expo-router';
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
-import { CommentsList, CreateCommentBottomSheet } from '@/components';
+import { AddCommentButton, CommentsList, CreateCommentBottomSheet } from '@/components';
 import { CreatePostBottomSheet, CreatePostForm, PostCard } from '@/components/post';
 
 import { PostWithUser } from '@/types';
 
 import { CURRENT_USER_ID } from '@/constants';
 
+import { containerStyle } from '@/styles';
 export default function PostDetailsScreen() {
 
 
@@ -35,10 +36,12 @@ export default function PostDetailsScreen() {
     const handleCloseEdit = () => {
       editPostSheetRef.current?.close();
     };
+
+    const handleAddComment = () => createCommentSheetRef.current?.present();
   
     if (!post) {
       return (
-        <View style={styles.center}>
+        <View style={containerStyle.main}>
           <Text>Post not found</Text>
         </View>
       );
@@ -46,15 +49,15 @@ export default function PostDetailsScreen() {
 
   return (
     <>
-      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <ScrollView style={containerStyle.main} contentContainerStyle={containerStyle.scrollView}>
         <PostCard
           post={post}
           onEdit={handleEdit}
+          disabled={true}
         />
 
-        <Button
-          title="Add Comment"
-          onPress={() => createCommentSheetRef.current?.present()}
+        <AddCommentButton
+           onPress={handleAddComment}
         />
 
         {comments && <CommentsList 
@@ -80,19 +83,3 @@ export default function PostDetailsScreen() {
     </>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f7fb',
-  },
-  content: {
-    padding: 16,
-    paddingBottom: 30,
-    gap: 16,
-  },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

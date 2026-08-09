@@ -1,5 +1,5 @@
-import { StyleSheet, TextInput } from 'react-native';
-
+import { inputStyle } from '@/styles';
+import { TextInput } from 'react-native';
 type Props = {
   value: string;
   onChangeText: (text: string) => void;
@@ -11,7 +11,7 @@ export default function SearchBar({
 }: Props) {
   return (
     <TextInput
-      style={styles.input}
+      style={inputStyle.base}
       placeholder="Search posts..."
       value={value}
       onChangeText={onChangeText}
@@ -19,12 +19,3 @@ export default function SearchBar({
   );
 }
 
-const styles = StyleSheet.create({
-  input: {
-    margin: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderRadius: 8,
-  },
-});
