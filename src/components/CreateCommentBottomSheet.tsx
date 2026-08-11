@@ -1,25 +1,29 @@
+import { useCreateComment } from "@/hooks/comments/mutations/useCreateComment";
 import {
+  buttonStyle,
+  COLORS,
+  containerStyle,
+  inputStyle,
+  typographyStyle,
+} from "@/styles";
+import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetTextInput,
   BottomSheetView,
-} from '@gorhom/bottom-sheet';
-import { forwardRef, useCallback, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
-
-import { useCreateComment } from '@/hooks/comments/mutations/useCreateComment';
-
-import { buttonStyle, containerStyle, inputStyle, typographyStyle } from '@/styles';
+} from "@gorhom/bottom-sheet";
+import { forwardRef, useCallback, useMemo, useState } from "react";
+import { Pressable, StyleSheet, Text } from "react-native";
 type Props = {
   postId: number;
   currentUserId: number;
 };
 
-const CreateCommentBottomSheet = forwardRef<BottomSheetModal, Props>(
+const CreateCommentBottomSheet = forwardRef<BottomSheet, Props>(
   ({ postId, currentUserId }, ref) => {
-    const snapPoints = useMemo(() => ['45%'], []);
+    const snapPoints = useMemo(() => ["50%"], ["90"]);
 
-    const [body, setBody] = useState('');
+    const [body, setBody] = useState("");
 
     const { mutate: createComment, isPending } = useCreateComment();
 
@@ -36,11 +40,11 @@ const CreateCommentBottomSheet = forwardRef<BottomSheetModal, Props>(
         },
         {
           onSuccess: () => {
-            setBody('');
+            setBody("");
 
             (ref as React.RefObject<BottomSheetModal>).current?.close();
           },
-        }
+        },
       );
     };
 
@@ -52,21 +56,29 @@ const CreateCommentBottomSheet = forwardRef<BottomSheetModal, Props>(
           disappearsOnIndex={-1}
         />
       ),
-      []
+      [],
     );
 
     return (
-      <BottomSheetModal
+      <BottomSheet
         ref={ref}
         snapPoints={snapPoints}
+        index={-1}
         backdropComponent={renderBackdrop}
         enablePanDownToClose
+        handleStyle={containerStyle.backgroundColor}
+        handleIndicatorStyle={containerStyle.surfaceColor}
       >
-        <BottomSheetView style={[containerStyle.content, containerStyle.formContainer]}>
-          <Text style={typographyStyle.h3}>New Comment</Text>
+        <BottomSheetView
+          style={[containerStyle.formContainer, containerStyle.backgroundColor]}
+        >
+          <Text style={[typographyStyle.h3, typographyStyle.textColor1]}>
+            New Comment
+          </Text>
 
           <BottomSheetTextInput
             placeholder="Comment"
+            placeholderTextColor={COLORS.text1}
             value={body}
             onChangeText={setBody}
             multiline
@@ -74,25 +86,25 @@ const CreateCommentBottomSheet = forwardRef<BottomSheetModal, Props>(
           />
 
           <Pressable
-                onPress={handleCreate}
-                style={[
-                  buttonStyle.base,
-                  buttonStyle.normal,
-                  buttonStyle.create,
-                ]}
-                disabled={isPending}
-              >
-                <Text style={buttonStyle.textNormal}>
-                  {isPending ? 'Creating...' : 'Create'}
-                </Text>
-              </Pressable>
+            onPress={handleCreate}
+            style={[
+              buttonStyle.base,
+              buttonStyle.normal,
+              buttonStyle.secondary,
+            ]}
+            disabled={isPending}
+          >
+            <Text style={buttonStyle.textNormal}>
+              {isPending ? "Creating..." : "Create"}
+            </Text>
+          </Pressable>
         </BottomSheetView>
-      </BottomSheetModal>
+      </BottomSheet>
     );
-  }
+  },
 );
 
-CreateCommentBottomSheet.displayName = 'CreateCommentBottomSheet';
+CreateCommentBottomSheet.displayName = "CreateCommentBottomSheet";
 
 export default CreateCommentBottomSheet;
 
@@ -104,17 +116,17 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   input: {
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: "#d1d5db",
     borderRadius: 10,
     padding: 12,
     fontSize: 16,
   },
   textArea: {
     minHeight: 120,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
 });

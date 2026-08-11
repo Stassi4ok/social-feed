@@ -40,7 +40,10 @@ export default function PostDetailsScreen() {
     editPostSheetRef.current?.close();
   };
 
-  const handleAddComment = () => createCommentSheetRef.current?.present();
+  const handleAddComment = useCallback(
+    () => createCommentSheetRef.current?.expand(),
+    [],
+  );
 
   if (!post) {
     return (

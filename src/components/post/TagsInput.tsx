@@ -1,6 +1,12 @@
+import {
+  buttonStyle,
+  COLORS,
+  containerStyle,
+  decorationStyle,
+  inputStyle,
+} from "@/styles";
 import { useEffect, useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-
 type Props = {
   tags: string[];
   onChangeTags: (tags: string[]) => void;
@@ -45,14 +51,9 @@ export default function TagsInput({ tags, onChangeTags }: Props) {
         <TextInput
           value={tagInput}
           onChangeText={setTagInput}
-          placeholder="Add tag"
-          style={{
-            flex: 1,
-            borderWidth: 1,
-            borderColor: "#ccc",
-            borderRadius: 8,
-            paddingHorizontal: 12,
-          }}
+          placeholder="Add tag (max 5)"
+          placeholderTextColor={COLORS.text1}
+          style={inputStyle.base}
           maxLength={10}
           editable={tags.length < 5}
           onSubmitEditing={handleAddTag}
@@ -61,14 +62,9 @@ export default function TagsInput({ tags, onChangeTags }: Props) {
         <TouchableOpacity
           onPress={handleAddTag}
           disabled={tags.length >= 5}
-          style={{
-            paddingHorizontal: 16,
-            justifyContent: "center",
-            borderRadius: 8,
-            backgroundColor: "#222",
-          }}
+          style={[buttonStyle.base, buttonStyle.small, buttonStyle.secondary]}
         >
-          <Text style={{ color: "#fff" }}>Add</Text>
+          <Text style={buttonStyle.textSmall}>Add</Text>
         </TouchableOpacity>
       </View>
 
@@ -81,22 +77,11 @@ export default function TagsInput({ tags, onChangeTags }: Props) {
         }}
       >
         {tags.map((tag) => (
-          <View
-            key={tag}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 6,
-              paddingHorizontal: 10,
-              paddingVertical: 6,
-              borderRadius: 16,
-              backgroundColor: "#eee",
-            }}
-          >
+          <View key={tag} style={[containerStyle.row, decorationStyle.tag]}>
             <Text>#{tag}</Text>
 
             <TouchableOpacity onPress={() => handleRemoveTag(tag)}>
-              <Text>×</Text>
+              <Text> ×</Text>
             </TouchableOpacity>
           </View>
         ))}

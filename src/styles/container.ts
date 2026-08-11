@@ -1,13 +1,13 @@
-import { StyleSheet } from 'react-native';
-import { COLORS } from './colors';
-import { RADIUS, SPACING } from './layout';
+import { StyleSheet } from "react-native";
+import { COLORS } from "./colors";
+import { RADIUS, SPACING } from "./layout";
 
 export const containerStyle = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: COLORS.background,
     padding: SPACING.sm,
-    gap: SPACING.sm
+    gap: SPACING.sm,
   },
 
   content: {
@@ -21,31 +21,30 @@ export const containerStyle = StyleSheet.create({
   },
   center: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: COLORS.background,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   row: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
 
   rowBetween: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 
   card: {
-    backgroundColor: "#ffffff",
+    backgroundColor: COLORS.surface,
     borderRadius: RADIUS.lg,
     padding: SPACING.md,
     gap: SPACING.sm,
-    marginHorizontal: 8,
-    marginVertical: 4,
+    marginHorizontal: SPACING.sm,
+    marginVertical: SPACING.xs,
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 5,
     shadowOffset: {
@@ -56,11 +55,17 @@ export const containerStyle = StyleSheet.create({
   formContainer: {
     flex: 1,
     gap: SPACING.sm,
-  }, 
+    padding: SPACING.sm,
+  },
   tags: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     marginTop: SPACING.sm,
-  }
-
+  },
+  backgroundColor: {
+    backgroundColor: COLORS.background,
+  },
+  surfaceColor: {
+    backgroundColor: COLORS.surface,
+  },
 });

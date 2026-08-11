@@ -1,11 +1,8 @@
-import { useCallback } from 'react';
-import {
-  FlatList,
-  ListRenderItem,
-} from 'react-native';
+import { useCallback } from "react";
+import { FlatList, ListRenderItem, Text } from "react-native";
 
-import { PostWithUser } from '../../types';
-import PostCard from './PostCard';
+import { PostWithUser } from "../../types";
+import PostCard from "./PostCard";
 
 type Props = {
   posts: PostWithUser[];
@@ -24,30 +21,26 @@ export default function PostList({
 }: Props) {
   const renderItem = useCallback<ListRenderItem<PostWithUser>>(
     ({ item }) => {
-      return (
-        <PostCard
-          post={item}
-          onEdit={onEdit}
-        />
-      );
+      return <PostCard post={item} onEdit={onEdit} />;
     },
     [onEdit],
   );
 
-  const keyExtractor = useCallback(
-    (item: PostWithUser) => String(item.id),
-    [],
-  );
+  const keyExtractor = useCallback((item: PostWithUser) => String(item.id), []);
 
   return (
-    <FlatList
-      data={posts}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
-      refreshing={refreshing}
-      onRefresh={onRefresh}
-      onEndReached={onEndReached}
-      onEndReachedThreshold={0.5}
-    />
+    <>
+      {posts.length === 0 && <Text>Posts not found</Text>}
+
+      <FlatList
+        data={posts}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        onEndReached={onEndReached}
+        onEndReachedThreshold={0.5}
+      />
+    </>
   );
 }

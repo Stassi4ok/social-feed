@@ -1,14 +1,15 @@
 // styles/input.ts
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-import { COLORS } from './colors';
-import { RADIUS, SPACING } from './layout';
-
+import { COLORS } from "./colors";
+import { RADIUS, SPACING } from "./layout";
 
 export const inputStyle = StyleSheet.create({
   base: {
     minHeight: 48,
+    maxHeight: 48,
+    flex: 1,
 
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.sm,
@@ -25,7 +26,7 @@ export const inputStyle = StyleSheet.create({
   },
   textArea: {
     minHeight: 120,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
 
   focused: {
@@ -33,7 +34,7 @@ export const inputStyle = StyleSheet.create({
   },
 
   error: {
-    borderColor: COLORS.error,
+    borderColor: COLORS.text2,
   },
 
   disabled: {
@@ -42,11 +43,11 @@ export const inputStyle = StyleSheet.create({
   },
 
   placeholder: {
-    color: COLORS.text2,
+    color: COLORS.text1,
   },
 
   multiline: {
     minHeight: 120,
-    textAlignVertical: 'top',
+    textAlignVertical: "top",
   },
 });

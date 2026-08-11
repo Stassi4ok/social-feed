@@ -1,4 +1,4 @@
- export const SPACING = {
+export const SPACING = {
   xs: 4,
   sm: 8,
   md: 12,

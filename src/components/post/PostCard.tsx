@@ -38,12 +38,12 @@ function PostCard({
   return (
     <View style={containerStyle.card}>
       <TouchableOpacity disabled={disabled} onPress={handlePress}>
-        <Text>
+        <Text style={typographyStyle.textColor1}>
           {post.user?.firstName} {post.user?.lastName}
         </Text>
 
         <Text
-          style={typographyStyle.h3}
+          style={[typographyStyle.h3, typographyStyle.textColor1]}
           numberOfLines={isDetails ? undefined : 2}
         >
           {post.title}
@@ -51,7 +51,7 @@ function PostCard({
 
         {post.body && (
           <Text
-            style={typographyStyle.body}
+            style={[typographyStyle.body, typographyStyle.textColor1]}
             numberOfLines={isDetails ? undefined : 3}
           >
             {post.body}
@@ -75,9 +75,13 @@ function PostCard({
         )}
 
         <View style={decorationStyle.cardFooter}>
-          <Text>👍 {post.reactions.likes}</Text>
-          <Text>👎 {post.reactions.dislikes}</Text>
-          <Text>👁 {post.views}</Text>
+          <Text style={typographyStyle.textColor1}>
+            👍 {post.reactions.likes}
+          </Text>
+          <Text style={typographyStyle.textColor1}>
+            👎 {post.reactions.dislikes}
+          </Text>
+          <Text style={typographyStyle.textColor1}>👁 {post.views}</Text>
         </View>
       </TouchableOpacity>
     </View>

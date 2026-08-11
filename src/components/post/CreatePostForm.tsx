@@ -1,6 +1,6 @@
 import { useCreatePost } from "@/hooks/post/mutations/useCreatePost";
 import { useUpdatePost } from "@/hooks/post/mutations/useUpdatePost";
-import { buttonStyle, containerStyle, inputStyle } from "@/styles";
+import { buttonStyle, COLORS, containerStyle, inputStyle } from "@/styles";
 import { PostWithUser } from "@/types/post";
 import { useEffect, useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
@@ -54,6 +54,7 @@ export default function CreatePostForm({ post, onSuccess }: Props) {
     <View style={containerStyle.formContainer}>
       <TextInput
         placeholder="Title"
+        placeholderTextColor={COLORS.text1}
         value={title}
         onChangeText={setTitle}
         style={inputStyle.base}
@@ -61,6 +62,7 @@ export default function CreatePostForm({ post, onSuccess }: Props) {
 
       <TextInput
         placeholder="Body"
+        placeholderTextColor={COLORS.text1}
         value={body}
         onChangeText={setBody}
         style={[inputStyle.base, inputStyle.textArea]}

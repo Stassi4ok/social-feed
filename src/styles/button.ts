@@ -1,22 +1,22 @@
-import { StyleSheet } from 'react-native';
-import { COLORS } from './colors';
-import { RADIUS, SPACING } from './layout';
+import { StyleSheet } from "react-native";
+import { COLORS } from "./colors";
+import { RADIUS, SPACING } from "./layout";
 
 export const buttonStyle = StyleSheet.create({
   base: {
     borderRadius: RADIUS.md,
 
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
 
-    flexDirection: 'row',
+    flexDirection: "row",
   },
-  normal:{
+  normal: {
     minHeight: SPACING.md,
     paddingHorizontal: SPACING.sm,
     paddingVertical: SPACING.xs,
   },
-  small:{
+  small: {
     minHeight: SPACING.md,
     paddingHorizontal: SPACING.sm,
     paddingVertical: SPACING.xs,
@@ -30,26 +30,15 @@ export const buttonStyle = StyleSheet.create({
     backgroundColor: COLORS.secondary,
   },
 
-  create: {
-    backgroundColor: COLORS.success,
-  },
-
-  edit: {
-    backgroundColor: COLORS.warning,
-  },
-
-  delete: {
-    backgroundColor: COLORS.error,
-  },
   textNormal: {
-    color: COLORS.white,
+    color: COLORS.text1,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
-  textSmall:{
-    color: COLORS.white,
+  textSmall: {
+    color: COLORS.text1,
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 
   pressed: {

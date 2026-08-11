@@ -32,7 +32,7 @@ export default function DeletePostButton({ postId, isGoBack }: Props) {
 
   return (
     <TouchableOpacity
-      style={[buttonStyle.base, buttonStyle.delete, buttonStyle.normal]}
+      style={[buttonStyle.base, buttonStyle.secondary, buttonStyle.normal]}
       onPress={handleDelete}
     >
       <Text style={buttonStyle.textNormal}>Delete</Text>

@@ -17,9 +17,15 @@ const CreatePostBottomSheet = forwardRef<BottomSheet, Props>(
         index={-1}
         snapPoints={snapPoints}
         enablePanDownToClose
+        handleStyle={containerStyle.backgroundColor}
+        handleIndicatorStyle={containerStyle.surfaceColor}
       >
-        <BottomSheetView style={containerStyle.content}>
-          <Text style={typographyStyle.h4}>{title}</Text>
+        <BottomSheetView
+          style={[containerStyle.content, containerStyle.backgroundColor]}
+        >
+          <Text style={[typographyStyle.h4, typographyStyle.textColor1]}>
+            {title}
+          </Text>
 
           {children}
         </BottomSheetView>
