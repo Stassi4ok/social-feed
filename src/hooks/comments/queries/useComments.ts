@@ -1,9 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
-import CommentService from '../../../services/comment.service';
+import { useQuery } from "@tanstack/react-query";
+import CommentService from "../../../services/comment.service";
 
 export function useComments(postId: number) {
   return useQuery({
-    queryKey: ['comments', postId],
+    queryKey: ["comments", postId],
     queryFn: () => CommentService.getCommentsByPostId(postId),
+    staleTime: 10_000,
+    gcTime: 5 * 60_000,
   });
 }

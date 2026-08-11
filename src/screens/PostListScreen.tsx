@@ -60,8 +60,6 @@ export default function PostListScreen() {
   }, []);
 
   const handleClose = useCallback(() => {
-    console.log("🔥 HANDLE CLOSE");
-
     bottomSheetRef.current?.close();
     setSelectedPost(null);
   }, []);

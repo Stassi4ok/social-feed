@@ -23,8 +23,6 @@ function PostCard({
   isGoBack = false,
   isDetails = false,
 }: PostCardProps) {
-  console.log("🎨 PostCard render:", post.id);
-
   const isOwner = post.userId === CURRENT_USER_ID;
 
   const handlePress = useCallback(() => {

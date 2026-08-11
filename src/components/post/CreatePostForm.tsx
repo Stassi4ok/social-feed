@@ -78,8 +78,6 @@ export default function CreatePostForm({ post, onSuccess }: Props) {
     }
 
     if (post) {
-      console.log("UPDATE SUCCESS", post);
-
       updatePost({
         postId: post.id,
         data: {

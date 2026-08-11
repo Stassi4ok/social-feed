@@ -8,11 +8,9 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
         <QueryProvider>
-        <Stack />
-    </QueryProvider>
+          <Stack />
+        </QueryProvider>
       </BottomSheetModalProvider>
-      
     </GestureHandlerRootView>
-    
   );
 }

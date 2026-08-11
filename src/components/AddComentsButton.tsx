@@ -1,6 +1,6 @@
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text } from "react-native";
 
-import { buttonStyle } from '@/styles';
+import { buttonStyle } from "@/styles";
 
 type Props = {
   onPress: () => void;
@@ -17,9 +17,7 @@ export default function AddCommentButton({ onPress }: Props) {
         pressed && buttonStyle.pressed,
       ]}
     >
-      <Text style={buttonStyle.textNormal}>
-        Add Comment
-      </Text>
+      <Text style={buttonStyle.textNormal}>Add Comment</Text>
     </Pressable>
   );
 }

@@ -1,10 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getCommentsByPost, getUserById } from '../api';
-import { COMMENT_STORAGE_KEY } from '../constants';
-import { CommentWithUser, CreateCommentDto } from '../types';
+import { getCommentsByPost, getUserById } from "../api";
+import { COMMENT_STORAGE_KEY } from "../constants";
+import { CommentWithUser, CreateCommentDto } from "../types";
 
 class CommentService {
-
   private async getLocalComments(): Promise<CommentWithUser[]> {
     const data = await AsyncStorage.getItem(COMMENT_STORAGE_KEY);
     return data ? JSON.parse(data) : [];
@@ -15,7 +14,9 @@ class CommentService {
 
   async getCommentsByPostId(postId: number): Promise<CommentWithUser[]> {
     const localComments = await this.getLocalComments();
-    const postComments = localComments.filter(comment => comment.postId === postId);
+    const postComments = localComments.filter(
+      (comment) => comment.postId === postId,
+    );
 
     const data = await getCommentsByPost(postId);
 
@@ -32,23 +33,25 @@ class CommentService {
       postId: comment.postId,
       body: comment.body,
       likes: 0,
-      user:{
+      user: {
         id: user.id,
-        fullName: `${user.firstName} ${user.lastName}`, 
+        fullName: `${user.firstName} ${user.lastName}`,
       },
     };
-  
+
     localComments.push(newComment);
 
     await this.saveLocalComments(localComments);
     return newComment;
   }
 
-
-  async update(comment: CreateCommentDto, id: number ): Promise<CommentWithUser>{
+  async update(
+    comment: CreateCommentDto,
+    id: number,
+  ): Promise<CommentWithUser> {
     const comments = await this.getLocalComments();
-    const index = comments.findIndex(comment => comment.id === id);
-    
+    const index = comments.findIndex((comment) => comment.id === id);
+
     if (index === -1) {
       throw new Error("Comment not found");
     }
@@ -56,21 +59,22 @@ class CommentService {
     comments[index] = {
       ...comments[index],
       body: comment.body,
-    }
+    };
 
     await this.saveLocalComments(comments);
 
     return comments[index];
   }
 
-  async delete(commentId: number): Promise<void>{
+  async delete(commentId: number): Promise<void> {
     const comments = await this.getLocalComments();
 
-    const filteredComments = comments.filter(comment => comment.id !== commentId);
+    const filteredComments = comments.filter(
+      (comment) => comment.id !== commentId,
+    );
 
     await this.saveLocalComments(filteredComments);
   }
-      
 }
 
 export default new CommentService();

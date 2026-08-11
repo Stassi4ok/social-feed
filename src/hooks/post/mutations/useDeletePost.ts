@@ -13,18 +13,12 @@ export function useDeletePost() {
 
   return useMutation({
     mutationFn: async (id: number) => {
-      console.log("🚀 delete mutationFn:", id);
-
       const result = await PostService.delete(id);
-
-      console.log("✅ delete API success:", result);
 
       return result;
     },
 
     onMutate: async (postId) => {
-      console.log("🟡 DELETE onMutate:", postId);
-
       await queryClient.cancelQueries({
         queryKey: ["posts"],
       });
@@ -33,13 +27,10 @@ export function useDeletePost() {
         InfiniteData<PostsWithUserResponse>
       >(["posts"]);
 
-      console.log("📸 SNAPSHOT:", previousPosts);
-
       queryClient.setQueryData<InfiniteData<PostsWithUserResponse>>(
         ["posts"],
         (oldData) => {
           if (!oldData) {
-            console.log("❌ NO CACHE");
             return oldData;
           }
 
@@ -57,29 +48,18 @@ export function useDeletePost() {
         },
       );
 
-      console.log(
-        "🔎 CACHE AFTER OPTIMISTIC DELETE:",
-        queryClient.getQueryData(["posts"]),
-      );
-
       return {
         previousPosts,
       };
     },
 
     onError: (error, postId, context) => {
-      console.log("🔴 DELETE ERROR:", error, postId);
-
       if (context?.previousPosts) {
         queryClient.setQueryData(["posts"], context.previousPosts);
-
-        console.log("🔄 DELETE ROLLBACK");
       }
     },
 
     onSettled: () => {
-      console.log("🔵 DELETE SETTLED");
-
       queryClient.invalidateQueries({
         queryKey: ["posts"],
       });

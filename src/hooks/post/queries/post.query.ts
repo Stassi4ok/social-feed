@@ -1,13 +1,11 @@
-import {
-  infiniteQueryOptions,
-} from '@tanstack/react-query';
+import { infiniteQueryOptions } from "@tanstack/react-query";
 
 import PostService from "../../../services/post.service";
 
 const LIMIT = 10;
 
 export const postsQueryOptions = infiniteQueryOptions({
-  queryKey: ['posts'],
+  queryKey: ["posts"],
 
   queryFn: async ({ pageParam }) => {
     return PostService.getAll(LIMIT, pageParam);
@@ -24,4 +22,6 @@ export const postsQueryOptions = infiniteQueryOptions({
 
     return nextSkip;
   },
+  staleTime: 30_000,
+  gcTime: 5 * 60_000,
 });

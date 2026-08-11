@@ -20,7 +20,6 @@ function CommentCard({ comment }: Props) {
   const handleDelete = () => {
     deleteComment(comment);
   };
-  console.log("🎨 Comment render: ", comment.id);
 
   return (
     <View style={containerStyle.card}>
