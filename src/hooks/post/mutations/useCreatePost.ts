@@ -20,10 +20,9 @@ export function useCreatePost() {
         queryKey: ["posts"],
       });
 
-      const previousPosts =
-        queryClient.getQueryData<InfiniteData<PostsWithUserResponse>>([
-          "posts",
-        ]);
+      const previousPosts = queryClient.getQueryData<
+        InfiniteData<PostsWithUserResponse>
+      >(["posts"]);
 
       queryClient.setQueryData<InfiniteData<PostsWithUserResponse>>(
         ["posts"],
@@ -35,7 +34,7 @@ export function useCreatePost() {
             title: newPost.title,
             body: newPost.body,
             userId: newPost.userId,
-            tags: [],
+            tags: newPost.tags,
             reactions: {
               likes: 0,
               dislikes: 0,
@@ -57,10 +56,10 @@ export function useCreatePost() {
                     ...page,
                     posts: [optimisticPost, ...page.posts],
                   }
-                : page
+                : page,
             ),
           };
-        }
+        },
       );
 
       return { previousPosts };
@@ -68,10 +67,7 @@ export function useCreatePost() {
 
     onError: (_error, _variables, context) => {
       if (context?.previousPosts) {
-        queryClient.setQueryData(
-          ["posts"],
-          context.previousPosts
-        );
+        queryClient.setQueryData(["posts"], context.previousPosts);
       }
     },
 

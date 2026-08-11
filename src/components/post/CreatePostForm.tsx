@@ -1,64 +1,52 @@
-import { useCreatePost } from '@/hooks/post/mutations/useCreatePost';
-import { useUpdatePost } from '@/hooks/post/mutations/useUpdatePost';
-import { buttonStyle, containerStyle, inputStyle } from '@/styles';
-import { PostWithUser } from '@/types/post';
-import { useEffect, useState } from 'react';
-import {
-  Pressable,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { useCreatePost } from "@/hooks/post/mutations/useCreatePost";
+import { useUpdatePost } from "@/hooks/post/mutations/useUpdatePost";
+import { buttonStyle, containerStyle, inputStyle } from "@/styles";
+import { PostWithUser } from "@/types/post";
+import { useEffect, useState } from "react";
+import { Pressable, Text, TextInput, View } from "react-native";
+import TagsInput from "./TagsInput";
 type Props = {
   post?: PostWithUser;
   onSuccess?: () => void;
 };
 
 export default function CreatePostForm({ post, onSuccess }: Props) {
-  const [title, setTitle] = useState(post?.title ?? '');
-  const [body, setBody] = useState(post?.body ?? '');
+  const [title, setTitle] = useState(post?.title ?? "");
+  const [body, setBody] = useState(post?.body ?? "");
+  const [tags, setTags] = useState<string[]>(post?.tags ?? []);
 
   const { mutate: createPost, isPending: isCreating } = useCreatePost();
   const { mutate: updatePost, isPending: isUpdating } = useUpdatePost();
 
   useEffect(() => {
-    setTitle(post?.title ?? '');
-    setBody(post?.body ?? '');
+    setTitle(post?.title ?? "");
+    setBody(post?.body ?? "");
+    setTags(post?.tags ?? []);
   }, [post]);
 
   const handleSubmit = () => {
     if (post) {
-       console.log(' UPDATE SUCCESS', post);
-      updatePost(
-        {
-          postId: post.id,
-          data: {
-            title,
-            body,
-          },
-        },
-        {
-          onSuccess: (data) => {
-            onSuccess?.();
-             console.log('✅ UPDATE SUCCESS', data);
-          },
-        }
-      );
-    } else {
-      createPost(
-        {
+      console.log(" UPDATE SUCCESS", post);
+      updatePost({
+        postId: post.id,
+        data: {
           title,
           body,
-          userId: 1,
+          tags,
         },
-        {
-          onSuccess: () => {
-            setTitle('');
-            setBody('');
-            onSuccess?.();
-          },
-        }
-      );
+      });
+      onSuccess?.();
+    } else {
+      createPost({
+        title,
+        body,
+        userId: 1,
+        tags,
+      });
+      setTitle("");
+      setBody("");
+      setTags([]);
+      onSuccess?.();
     }
   };
 
@@ -79,6 +67,8 @@ export default function CreatePostForm({ post, onSuccess }: Props) {
         multiline
       />
 
+      <TagsInput tags={tags} onChangeTags={setTags} />
+
       <Pressable
         onPress={handleSubmit}
         disabled={isCreating || isUpdating}
@@ -89,9 +79,7 @@ export default function CreatePostForm({ post, onSuccess }: Props) {
           (isCreating || isUpdating) && buttonStyle.disabled,
         ]}
       >
-        <Text style={buttonStyle.textNormal}>
-          {post ? 'Save' : 'Create'}
-        </Text>
+        <Text style={buttonStyle.textNormal}>{post ? "Save" : "Create"}</Text>
       </Pressable>
     </View>
   );

@@ -2,92 +2,87 @@ import {
   InfiniteData,
   useMutation,
   useQueryClient,
-} from '@tanstack/react-query';
+} from "@tanstack/react-query";
 
-import {
-  PostsWithUserResponse,
-} from '@/types';
+import { PostsWithUserResponse } from "@/types";
 
-import PostService from '../../../services/post.service';
+import PostService from "../../../services/post.service";
 
 export function useDeletePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (id: number) => {
-      console.log('🚀 delete mutationFn:', id);
+      console.log("🚀 delete mutationFn:", id);
 
       const result = await PostService.delete(id);
 
-      console.log('✅ delete API success:', result);
+      console.log("✅ delete API success:", result);
 
       return result;
     },
 
     onMutate: async (postId) => {
-  console.log('🟡 DELETE onMutate:', postId);
+      console.log("🟡 DELETE onMutate:", postId);
 
-  await queryClient.cancelQueries({
-    queryKey: ['posts'],
-  });
+      await queryClient.cancelQueries({
+        queryKey: ["posts"],
+      });
 
-  const previousPosts =
-    queryClient.getQueryData<
-      InfiniteData<PostsWithUserResponse>
-    >(['posts']);
+      const previousPosts = queryClient.getQueryData<
+        InfiniteData<PostsWithUserResponse>
+      >(["posts"]);
 
-  console.log('📸 SNAPSHOT:', previousPosts);
+      console.log("📸 SNAPSHOT:", previousPosts);
 
-  queryClient.setQueryData<
-    InfiniteData<PostsWithUserResponse>
-  >(
-    ['posts'],
-    (oldData) => {
-      if (!oldData) {
-        console.log('❌ NO CACHE');
-        return oldData;
-      }
+      queryClient.setQueryData<InfiniteData<PostsWithUserResponse>>(
+        ["posts"],
+        (oldData) => {
+          if (!oldData) {
+            console.log("❌ NO CACHE");
+            return oldData;
+          }
 
-      console.log(
-        '📦 POSTS BEFORE:',
-        oldData.pages.flatMap(
-          page => page.posts
-        ).length,
+          const newData = {
+            ...oldData,
+
+            pages: oldData.pages.map((page) => ({
+              ...page,
+
+              posts: page.posts.filter((post) => post.id !== postId),
+            })),
+          };
+
+          return newData;
+        },
       );
 
-      const newData = {
-        ...oldData,
-        pages: oldData.pages.map(page => ({
-          ...page,
-          posts: page.posts.filter(
-            post => post.id !== postId
-          ),
-        })),
+      console.log(
+        "🔎 CACHE AFTER OPTIMISTIC DELETE:",
+        queryClient.getQueryData(["posts"]),
+      );
+
+      return {
+        previousPosts,
       };
-
-      console.log(
-        '📦 POSTS AFTER:',
-        newData.pages.flatMap(
-          page => page.posts
-        ).length,
-      );
-
-      return newData;
     },
-  );
 
-  // Перевіряємо cache ПІСЛЯ setQueryData
-  const afterUpdate =
-    queryClient.getQueryData<
-      InfiniteData<PostsWithUserResponse>
-    >(['posts']);
+    onError: (error, postId, context) => {
+      console.log("🔴 DELETE ERROR:", error, postId);
 
-  console.log(
-    '🔎 CACHE AFTER OPTIMISTIC DELETE:',
-    afterUpdate,
-  );
+      if (context?.previousPosts) {
+        queryClient.setQueryData(["posts"], context.previousPosts);
 
-  return {
-    previousPosts,
-  };
-},})}
+        console.log("🔄 DELETE ROLLBACK");
+      }
+    },
+
+    onSettled: () => {
+      console.log("🔵 DELETE SETTLED");
+
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+      });
+    },
+  });
+}

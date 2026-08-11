@@ -1,16 +1,16 @@
-import { User } from './user';
+import { User } from "./user";
 
 export interface Post {
-    id: number;
-    title: string;
-    body: string;
-    tags: string[];
-    reactions: {
-        likes: number;
-        dislikes: number;
-    };
-    views: number;
-    userId: number;
+  id: number;
+  title: string;
+  body: string;
+  tags: string[];
+  reactions: {
+    likes: number;
+    dislikes: number;
+  };
+  views: number;
+  userId: number;
 }
 
 export interface PostWithUser extends Post {
@@ -21,10 +21,12 @@ export interface UpdatePostDto {
   title?: string;
   body?: string;
   userId?: number;
+  tags?: string[];
 }
 
 export interface CreatePostDto {
   title: string;
   body: string;
   userId: number;
+  tags: string[];
 }

@@ -1,29 +1,29 @@
-import { CURRENT_USER_ID } from '@/constants/curentUser';
-import {
-  containerStyle,
-  decorationStyle,
-  typographyStyle,
-} from '@/styles';
-import { PostWithUser } from '@/types';
-import { router } from 'expo-router';
-import { memo, useCallback } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { CURRENT_USER_ID } from "@/constants/curentUser";
+import { containerStyle, decorationStyle, typographyStyle } from "@/styles";
+import { PostWithUser } from "@/types";
+import { router } from "expo-router";
+import { memo, useCallback } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 
-import DeletePostButton from './DeletePostButton';
-import EditPostButton from './EditPostButton';
+import DeletePostButton from "./DeletePostButton";
+import EditPostButton from "./EditPostButton";
 
 type PostCardProps = {
   post: PostWithUser;
   onEdit?: (post: PostWithUser) => void;
   disabled?: boolean;
+  isGoBack?: boolean;
+  isDetails?: boolean;
 };
 
 function PostCard({
   post,
   onEdit,
   disabled = false,
+  isGoBack = false,
+  isDetails = false,
 }: PostCardProps) {
-  console.log('🎨 PostCard render:', post.id);
+  console.log("🎨 PostCard render:", post.id);
 
   const isOwner = post.userId === CURRENT_USER_ID;
 
@@ -36,52 +36,50 @@ function PostCard({
   }, [onEdit, post]);
 
   return (
-     <View style={containerStyle.card}>
-    <TouchableOpacity
-      disabled={disabled}
-      onPress={handlePress}
-    >
-      <Text>
-        {post.user?.firstName} {post.user?.lastName}
-      </Text>
-
-      <Text style={typographyStyle.h3}>
-        {post.title}
-      </Text>
-
-      {post.body && (
-        <Text style={typographyStyle.body}>
-          {post.body}
+    <View style={containerStyle.card}>
+      <TouchableOpacity disabled={disabled} onPress={handlePress}>
+        <Text>
+          {post.user?.firstName} {post.user?.lastName}
         </Text>
-      )}
 
-      <View style={containerStyle.tags}>
-        {post.tags?.map(tag => (
-          <View
-            key={tag}
-            style={decorationStyle.tag}
+        <Text
+          style={typographyStyle.h3}
+          numberOfLines={isDetails ? undefined : 2}
+        >
+          {post.title}
+        </Text>
+
+        {post.body && (
+          <Text
+            style={typographyStyle.body}
+            numberOfLines={isDetails ? undefined : 3}
           >
-            <Text style={typographyStyle.tagText}>
-              #{tag}
-            </Text>
-          </View>
-        ))}
-      </View>
+            {post.body}
+          </Text>
+        )}
 
-      {isOwner && onEdit && (
-        <View style={decorationStyle.actions}>
-          <EditPostButton onPress={handleEdit} />
-
-          <DeletePostButton postId={post.id} />
+        <View style={containerStyle.tags}>
+          {post.tags?.map((tag) => (
+            <View key={tag} style={decorationStyle.tag}>
+              <Text style={typographyStyle.tagText}>#{tag}</Text>
+            </View>
+          ))}
         </View>
-      )}
 
-      <View style={decorationStyle.cardFooter}>
-        <Text>👍 {post.reactions.likes}</Text>
-        <Text>👎 {post.reactions.dislikes}</Text>
-        <Text>👁 {post.views}</Text>
-      </View>
-    </TouchableOpacity>
+        {isOwner && onEdit && (
+          <View style={decorationStyle.actions}>
+            <EditPostButton onPress={handleEdit} />
+
+            <DeletePostButton postId={post.id} isGoBack={isGoBack} />
+          </View>
+        )}
+
+        <View style={decorationStyle.cardFooter}>
+          <Text>👍 {post.reactions.likes}</Text>
+          <Text>👎 {post.reactions.dislikes}</Text>
+          <Text>👁 {post.views}</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
