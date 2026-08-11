@@ -9,7 +9,7 @@ type Props = {
 
 const CreatePostBottomSheet = forwardRef<BottomSheet, Props>(
   ({ title, children }, ref) => {
-    const snapPoints = useMemo(() => ["50%"], ["90"]);
+    const snapPoints = useMemo(() => ["90%"], []);
 
     return (
       <BottomSheet

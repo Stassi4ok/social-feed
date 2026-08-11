@@ -96,7 +96,12 @@ export const typographyStyle = StyleSheet.create({
     fontWeight: "600",
     lineHeight: 24,
   },
-
+  error: {
+    color: COLORS.errorColor,
+  },
+  delete: {
+    color: COLORS.errorColor,
+  },
   // Посилання
   link: {
     fontSize: 16,

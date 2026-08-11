@@ -47,9 +47,7 @@ function CommentCard({ comment }: Props) {
             onPress={handleDelete}
             style={[buttonStyle.base, buttonStyle.small]}
           >
-            <Text style={[buttonStyle.secondary, buttonStyle.textSmall]}>
-              Delete
-            </Text>
+            <Text style={[typographyStyle.delete]}>Delete</Text>
           </TouchableOpacity>
         )}
       </View>

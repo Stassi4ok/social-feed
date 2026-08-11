@@ -13,22 +13,27 @@ import BottomSheet, {
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { forwardRef, useCallback, useMemo, useState } from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, Text } from "react-native";
 type Props = {
   postId: number;
   currentUserId: number;
 };
+type Errors = {
+  body?: string;
+};
 
 const CreateCommentBottomSheet = forwardRef<BottomSheet, Props>(
   ({ postId, currentUserId }, ref) => {
-    const snapPoints = useMemo(() => ["50%"], ["90"]);
+    const snapPoints = useMemo(() => ["60%"], []);
 
     const [body, setBody] = useState("");
+
+    const [errors, setErrors] = useState<Errors>({});
 
     const { mutate: createComment, isPending } = useCreateComment();
 
     const handleCreate = () => {
-      if (!body.trim()) {
+      if (!validate()) {
         return;
       }
 
@@ -59,6 +64,22 @@ const CreateCommentBottomSheet = forwardRef<BottomSheet, Props>(
       [],
     );
 
+    const validate = () => {
+      const newErrors: Errors = {};
+
+      if (!body.trim()) {
+        newErrors.body = "Body is required";
+      } else if (body.trim().length < 3) {
+        newErrors.body = "Body must be at least 3 characters";
+      } else if (body.trim().length > 100) {
+        newErrors.body = "Body must be no more than 100 characters";
+      }
+
+      setErrors(newErrors);
+
+      return Object.keys(newErrors).length === 0;
+    };
+
     return (
       <BottomSheet
         ref={ref}
@@ -84,6 +105,9 @@ const CreateCommentBottomSheet = forwardRef<BottomSheet, Props>(
             multiline
             style={[inputStyle.base, inputStyle.textArea]}
           />
+          {errors.body && (
+            <Text style={typographyStyle.error}>{errors.body}</Text>
+          )}
 
           <Pressable
             onPress={handleCreate}
@@ -107,26 +131,3 @@ const CreateCommentBottomSheet = forwardRef<BottomSheet, Props>(
 CreateCommentBottomSheet.displayName = "CreateCommentBottomSheet";
 
 export default CreateCommentBottomSheet;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    gap: 16,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "700",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#d1d5db",
-    borderRadius: 10,
-    padding: 12,
-    fontSize: 16,
-  },
-  textArea: {
-    minHeight: 120,
-    textAlignVertical: "top",
-  },
-});

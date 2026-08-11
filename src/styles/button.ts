@@ -31,12 +31,12 @@ export const buttonStyle = StyleSheet.create({
   },
 
   textNormal: {
-    color: COLORS.text1,
+    color: COLORS.text3,
     fontSize: 16,
     fontWeight: "600",
   },
   textSmall: {
-    color: COLORS.text1,
+    color: COLORS.text3,
     fontSize: 12,
     fontWeight: "600",
   },

@@ -16,6 +16,7 @@ export const LIGHT_THEME_COLORS = {
   tagColor: "#E8F0FE",
   tagColorText: "#2563EB",
 
+  errorColor: "#b12020",
   avatarColor: "#a5e7d1",
 
   white: "#FFFFFF",
@@ -40,6 +41,7 @@ export const DARK_THEME_COLORS = {
   tagColor: "#98beff",
   tagColorText: "#002d8d",
 
+  errorColor: "#b12020",
   avatarColor: "#20b180",
 
   white: "#FFFFFF",
