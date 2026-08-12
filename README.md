@@ -28,7 +28,6 @@
 - нескінченний скрол;
 - pull-to-refresh;
 - пошук за заголовком і текстом поста;
-- стани `loading / error / empty`;
 - інформація про автора;
 - теги;
 - кількість реакцій;
@@ -41,6 +40,7 @@
 - інформація про автора;
 - список коментарів;
 - додавання коментарів;
+- видалення коментаря;
 - повторне використання даних із кешу стрічки;
 
 ## CRUD постів
@@ -78,11 +78,16 @@
 src/
 ├── api/
 │   └── ...
+├── app/
+│    ├── _layout.tsx
+│    ├── index.tsx
+│    └── post/
+│        └── [id].tsx
 │
 ├── components/
-│   ├── PostCard/
-│   ├── PostList/
-│   ├── SearchBar/
+│   ├── post/
+│   ├── comment/
+│   ├── SearchBar.tsx
 │   └── ...
 │
 ├── constants/
@@ -96,8 +101,8 @@ src/
 │   └── ...
 │
 ├── screens/
-│   ├── Feed/
-│   └── PostDetails/
+│   ├── PostDetailsScreen.tsx/
+│   └── PostListScreen.tsx/
 │
 ├── services/
 │   ├── post.service.ts
@@ -215,6 +220,36 @@ useCallback;
 
 Окремий глобальний state manager у цьому випадку створив би дублювання відповідальності, оскільки основна частина стану вже правильно покривається TanStack Query.
 
+### 👤 Current User
+
+Оскільки в межах тестового завдання не реалізована повноцінна authentication-система, поточний користувач представлений mock-даними:
+
+export const CURRENT_USER = {
+  id: 1,
+  firstName: "Emily",
+  lastName: "Johnson",
+  fullName: "Emily Johnson",
+};
+
+Це використовується для:
+
+визначення власника поста/коментаря;
+відображення Edit/Delete actions;
+передачі userId під час створення поста або коментаря.
+
+Це свідоме спрощення саме для тестового завдання — окремий auth/state manager для одного статичного користувача був би зайвим.
+
+💡 Чому без глобального State Manager?
+
+У поточній архітектурі кожен тип стану має відповідальний інструмент:
+
+Тип стану	Інструмент
+Server state	TanStack Query
+UI state	React useState / useRef
+Persistent local state	AsyncStorage
+Current user	Mock constants
+
+Тому додавання Zustand або Redux Toolkit створило б додатковий шар абстракції без реальної користі для цього застосунку.
 ---
 
 # 📦 Expo Go чи Development Build
