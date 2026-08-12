@@ -13,7 +13,7 @@ import { View } from "react-native";
 import { SearchBar } from "../components";
 
 import { PostWithUser } from "@/types";
-import BottomSheet from "@gorhom/bottom-sheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 import LoadingPosts from "@/components/LoadingPosts";
 import { containerStyle } from "@/styles";
@@ -21,7 +21,7 @@ export default function PostListScreen() {
   const [search, setSearch] = useState("");
   const [selectedPost, setSelectedPost] = useState<PostWithUser | null>(null);
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   const {
     data,
@@ -57,16 +57,16 @@ export default function PostListScreen() {
 
   const handleCreate = useCallback(() => {
     setSelectedPost(null);
-    bottomSheetRef.current?.expand();
+    bottomSheetRef.current?.present();
   }, []);
 
   const handleEdit = useCallback((post: PostWithUser) => {
     setSelectedPost(post);
-    bottomSheetRef.current?.expand();
+    bottomSheetRef.current?.present();
   }, []);
 
   const handleClose = useCallback(() => {
-    bottomSheetRef.current?.close();
+    bottomSheetRef.current?.dismiss();
     setSelectedPost(null);
   }, []);
 

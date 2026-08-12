@@ -1,9 +1,8 @@
-import { useCallback, useRef } from "react";
-
 import { useComments } from "@/hooks/comments/queries/useComments";
 import { usePost } from "@/hooks/post/queries/usePost";
-import BottomSheet from "@gorhom/bottom-sheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useLocalSearchParams } from "expo-router";
+import { useCallback, useRef } from "react";
 import { ScrollView, Text, View } from "react-native";
 
 import {
@@ -17,14 +16,13 @@ import {
   PostCard,
 } from "@/components/post";
 
-import { PostWithUser } from "@/types";
 
 import { CURRENT_USER_ID } from "@/constants";
 
 import { containerStyle } from "@/styles";
 export default function PostDetailsScreen() {
-  const editPostSheetRef = useRef<BottomSheet>(null);
-  const createCommentSheetRef = useRef<BottomSheet>(null);
+  const editPostSheetRef = useRef<BottomSheetModal>(null);
+  const createCommentSheetRef = useRef<BottomSheetModal>(null);
 
   const { id } = useLocalSearchParams<{ id: string }>();
   const postId = Number(id);
@@ -32,17 +30,16 @@ export default function PostDetailsScreen() {
   const { data: post } = usePost(postId);
   const { data: comments } = useComments(postId);
 
-  const handleEdit = useCallback((post: PostWithUser) => {
-    editPostSheetRef.current?.expand();
+  const handleEdit = useCallback(() => {
+    editPostSheetRef.current?.present();
   }, []);
-  const handleCloseEdit = () => {
-    editPostSheetRef.current?.close();
-  };
+  const handleCloseEdit = useCallback(() => {
+    editPostSheetRef.current?.dismiss();
+  }, []);
 
-  const handleAddComment = useCallback(
-    () => createCommentSheetRef.current?.expand,
-    [],
-  );
+  const handleAddComment = useCallback(() => {
+    createCommentSheetRef.current?.present();
+  }, []);
 
   if (!post) {
     return (

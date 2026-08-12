@@ -6,62 +6,32 @@ import {
   inputStyle,
   typographyStyle,
 } from "@/styles";
-import BottomSheet, {
+import {
   BottomSheetBackdrop,
+  BottomSheetModal,
   BottomSheetTextInput,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { forwardRef, useCallback, useMemo, useState } from "react";
 import { Pressable, Text } from "react-native";
+
 type Props = {
   postId: number;
   currentUserId: number;
 };
+
 type Errors = {
   body?: string;
 };
 
-const CreateCommentBottomSheet = forwardRef<BottomSheet, Props>(
+const CreateCommentBottomSheet = forwardRef<BottomSheetModal, Props>(
   ({ postId, currentUserId }, ref) => {
     const snapPoints = useMemo(() => ["90%"], []);
 
     const [body, setBody] = useState("");
-
     const [errors, setErrors] = useState<Errors>({});
 
     const { mutate: createComment, isPending } = useCreateComment();
-
-    const handleCreate = () => {
-      if (!validate()) {
-        return;
-      }
-
-      createComment(
-        {
-          postId,
-          body,
-          userId: currentUserId,
-        },
-        {
-          onSuccess: () => {
-            setBody("");
-
-            (ref as React.RefObject<BottomSheet>).current?.close();
-          },
-        },
-      );
-    };
-
-    const renderBackdrop = useCallback(
-      (props: any) => (
-        <BottomSheetBackdrop
-          {...props}
-          appearsOnIndex={0}
-          disappearsOnIndex={-1}
-        />
-      ),
-      [],
-    );
 
     const validate = () => {
       const newErrors: Errors = {};
@@ -79,8 +49,41 @@ const CreateCommentBottomSheet = forwardRef<BottomSheet, Props>(
       return Object.keys(newErrors).length === 0;
     };
 
+    const handleCreate = () => {
+      if (!validate()) {
+        return;
+      }
+
+      createComment(
+        {
+          postId,
+          body,
+          userId: currentUserId,
+        },
+        {
+          onSuccess: () => {
+            setBody("");
+            setErrors({});
+
+            ref && typeof ref !== "function" && ref.current?.dismiss();
+          },
+        },
+      );
+    };
+
+    const renderBackdrop = useCallback(
+      (props: any) => (
+        <BottomSheetBackdrop
+          {...props}
+          appearsOnIndex={0}
+          disappearsOnIndex={-1}
+        />
+      ),
+      [],
+    );
+
     return (
-      <BottomSheet
+      <BottomSheetModal
         ref={ref}
         snapPoints={snapPoints}
         backdropComponent={renderBackdrop}
@@ -103,6 +106,7 @@ const CreateCommentBottomSheet = forwardRef<BottomSheet, Props>(
             multiline
             style={[inputStyle.base, inputStyle.textArea]}
           />
+
           {errors.body && (
             <Text style={typographyStyle.error}>{errors.body}</Text>
           )}
@@ -121,7 +125,7 @@ const CreateCommentBottomSheet = forwardRef<BottomSheet, Props>(
             </Text>
           </Pressable>
         </BottomSheetView>
-      </BottomSheet>
+      </BottomSheetModal>
     );
   },
 );

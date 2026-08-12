@@ -8,15 +8,14 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <BottomSheetModalProvider>
-          <QueryProvider>
+        <QueryProvider>
+          <BottomSheetModalProvider>
             <Stack>
               <Stack.Screen name="index" options={{ headerShown: false }} />
-
               <Stack.Screen name="post/[id]" options={{ headerShown: false }} />
             </Stack>
-          </QueryProvider>
-        </BottomSheetModalProvider>
+          </BottomSheetModalProvider>
+        </QueryProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

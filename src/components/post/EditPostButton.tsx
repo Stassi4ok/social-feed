@@ -1,4 +1,4 @@
-import { buttonStyle } from "@/styles";
+import { buttonStyle, typographyStyle } from "@/styles";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useRef } from "react";
 import { Text, TouchableOpacity } from "react-native";
@@ -14,7 +14,9 @@ export default function EditPostButton({ onPress }: Props) {
       onPress={onPress}
       style={[buttonStyle.base, buttonStyle.normal]}
     >
-      <Text style={buttonStyle.textNormal}>Edit</Text>
+      <Text style={[buttonStyle.textNormal, typographyStyle.textColor1]}>
+        Edit
+      </Text>
     </TouchableOpacity>
   );
 }
