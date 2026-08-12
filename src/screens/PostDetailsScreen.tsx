@@ -2,8 +2,7 @@ import { useCallback, useRef } from "react";
 
 import { useComments } from "@/hooks/comments/queries/useComments";
 import { usePost } from "@/hooks/post/queries/usePost";
-
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import BottomSheet from "@gorhom/bottom-sheet";
 import { useLocalSearchParams } from "expo-router";
 import { ScrollView, Text, View } from "react-native";
 
@@ -24,8 +23,8 @@ import { CURRENT_USER_ID } from "@/constants";
 
 import { containerStyle } from "@/styles";
 export default function PostDetailsScreen() {
-  const editPostSheetRef = useRef<BottomSheetModal>(null);
-  const createCommentSheetRef = useRef<BottomSheetModal>(null);
+  const editPostSheetRef = useRef<BottomSheet>(null);
+  const createCommentSheetRef = useRef<BottomSheet>(null);
 
   const { id } = useLocalSearchParams<{ id: string }>();
   const postId = Number(id);
@@ -41,7 +40,7 @@ export default function PostDetailsScreen() {
   };
 
   const handleAddComment = useCallback(
-    () => createCommentSheetRef.current?.expand(),
+    () => createCommentSheetRef.current?.expand,
     [],
   );
 

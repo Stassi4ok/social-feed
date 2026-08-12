@@ -2,7 +2,7 @@ import { buttonStyle } from "@/styles";
 import { Pressable, Text } from "react-native";
 
 type Props = {
-  onPress: () => void;
+  onPress?: () => void;
 };
 
 export default function AddPostButton({ onPress }: Props) {

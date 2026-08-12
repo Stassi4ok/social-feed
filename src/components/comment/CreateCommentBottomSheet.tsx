@@ -8,7 +8,6 @@ import {
 } from "@/styles";
 import BottomSheet, {
   BottomSheetBackdrop,
-  BottomSheetModal,
   BottomSheetTextInput,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
@@ -24,7 +23,7 @@ type Errors = {
 
 const CreateCommentBottomSheet = forwardRef<BottomSheet, Props>(
   ({ postId, currentUserId }, ref) => {
-    const snapPoints = useMemo(() => ["60%"], []);
+    const snapPoints = useMemo(() => ["90%"], []);
 
     const [body, setBody] = useState("");
 
@@ -47,7 +46,7 @@ const CreateCommentBottomSheet = forwardRef<BottomSheet, Props>(
           onSuccess: () => {
             setBody("");
 
-            (ref as React.RefObject<BottomSheetModal>).current?.close();
+            (ref as React.RefObject<BottomSheet>).current?.close();
           },
         },
       );
@@ -84,7 +83,6 @@ const CreateCommentBottomSheet = forwardRef<BottomSheet, Props>(
       <BottomSheet
         ref={ref}
         snapPoints={snapPoints}
-        index={-1}
         backdropComponent={renderBackdrop}
         enablePanDownToClose
         handleStyle={containerStyle.backgroundColor}

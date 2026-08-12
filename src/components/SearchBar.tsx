@@ -2,8 +2,8 @@ import { COLORS, inputStyle } from "@/styles";
 import { TextInput } from "react-native";
 
 type Props = {
-  value: string;
-  onChangeText: (text: string) => void;
+  value?: string;
+  onChangeText?: (text: string) => void;
 };
 
 export default function SearchBar({ value, onChangeText }: Props) {

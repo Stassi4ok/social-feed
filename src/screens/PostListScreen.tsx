@@ -15,6 +15,7 @@ import { SearchBar } from "../components";
 import { PostWithUser } from "@/types";
 import BottomSheet from "@gorhom/bottom-sheet";
 
+import LoadingPosts from "@/components/LoadingPosts";
 import { containerStyle } from "@/styles";
 export default function PostListScreen() {
   const [search, setSearch] = useState("");
@@ -28,6 +29,7 @@ export default function PostListScreen() {
     hasNextPage,
     isFetchingNextPage,
     refetch,
+    isPending,
     isRefetching,
   } = usePosts();
 
@@ -42,6 +44,10 @@ export default function PostListScreen() {
         post.body.toLowerCase().includes(normalizedSearch),
     );
   }, [posts, search]);
+
+  if (isPending) {
+    return <LoadingPosts />;
+  }
 
   const handleLoadMore = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) {

@@ -3,7 +3,7 @@ import { Pressable, Text } from "react-native";
 import { buttonStyle } from "@/styles";
 
 type Props = {
-  onPress: () => void;
+  onPress?: () => void;
 };
 
 export default function AddCommentButton({ onPress }: Props) {

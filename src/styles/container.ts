@@ -68,4 +68,10 @@ export const containerStyle = StyleSheet.create({
   surfaceColor: {
     backgroundColor: COLORS.surface,
   },
+  header: {
+    padding: SPACING.sm,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 });
