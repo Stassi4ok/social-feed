@@ -220,6 +220,7 @@ useCallback;
 
 Окремий глобальний state manager у цьому випадку створив би дублювання відповідальності, оскільки основна частина стану вже правильно покривається TanStack Query.
 
+
 ### 👤 Current User
 
 Оскільки в межах тестового завдання не реалізована повноцінна authentication-система, поточний користувач представлений mock-даними:
@@ -250,6 +251,7 @@ Persistent local state	AsyncStorage
 Current user	Mock constants
 
 Тому додавання Zustand або Redux Toolkit створило б додатковий шар абстракції без реальної користі для цього застосунку.
+
 ---
 
 # 📦 Expo Go чи Development Build
